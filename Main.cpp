@@ -54,9 +54,16 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
+  flywheel.spin(vex::directionType::fwd,-8, voltageUnits::volt);
+  Drivetrain.driveFor(reverse,4,inches);
+  intake.spin(forward);
+  wait(1,seconds);
+  intake.stop();
+  Drivetrain.driveFor(forward,4,inches);
+  Drivetrain.turnFor(right,45,degrees);
+  Drivetrain.driveFor(forward,20,inches);
+  Drivetrain.turnFor(left,90,degrees);
+  intake.spin(reverse);
 }
 
 /*---------------------------------------------------------------------------*/
