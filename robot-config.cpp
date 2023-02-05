@@ -21,9 +21,7 @@ motor_group intake = motor_group(intakeMotorA, intakeMotorB);
 motor flywheelMotorA = motor(PORT17, ratio6_1, false);
 motor flywheelMotorB = motor(PORT18, ratio6_1, false);
 motor_group flywheel = motor_group(flywheelMotorA, flywheelMotorB);
-digital_out trey = digital_out(Brain.ThreeWirePort.A);
 digital_out endgame = digital_out(Brain.ThreeWirePort.B);
-digital_out cb = digital_out(Brain.ThreeWirePort.C);
 controller Controller1 = controller(primary);
 
 // VEXcode generated functions
@@ -84,13 +82,8 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.spin(forward);
       }
       // check the ButtonL1/ButtonL2 status to control intake
-      if (Controller1.ButtonL1.pressing()) {
-        intake.spin(reverse);
-        Controller1LeftShoulderControlMotorsStopped = false;
-      } else if (Controller1.ButtonL2.pressing()) {
+      else if (Controller1.ButtonL2.pressing()) {
         intake.setVelocity(-600,rpm);
-        trey.set(true);
-        wait(0.5,seconds);
         intake.spin(forward);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (!Controller1LeftShoulderControlMotorsStopped) {
@@ -98,11 +91,12 @@ int rc_auto_loop_function_Controller1() {
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
       }
-      if (Controller1.ButtonL2.pressing()) {
+      if (Controller1.ButtonR2.pressing()) {
         intake.setVelocity(600,rpm);
-        trey.set(false);
-        wait(0.5,seconds);
         intake.spin(reverse);
+      }
+      if (Controller1.ButtonDown.pressing()) {
+        flywheel.spin(vex::directionType::fwd,-8, voltageUnits::volt);
       }
     }
     // wait before repeating the process
