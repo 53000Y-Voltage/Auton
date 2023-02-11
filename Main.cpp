@@ -68,22 +68,20 @@ void autonomous(void) {
    intake.stop();
    Drivetrain.turnFor(right,12.5,degrees);
   Drivetrain.driveFor(reverse,4,inches);
-  roller.spin(forward);
+  roller.spin(reverse);
   wait(1,seconds);
   roller.stop();
   intake.setVelocity(600,rpm);
   Drivetrain.driveFor(4,inches);
   Drivetrain.turnFor(right,50,degrees);
   intake.spin(reverse);
-  Drivetrain.driveFor(forward,350,inches,false);
-  wait(3.1,seconds);
-  intake.stop();
-  Drivetrain.driveFor(1,mm,true);
-  Drivetrain.turnFor(left,100,degrees);
-  intake.spin(reverse);
-  wait(2,sec);
-  intake.setVelocity(600,rpm);
-  intake.spin(forward);
+  Drivetrain.driveFor(135,inches);
+  Drivetrain.turnFor(left,135,degrees);
+  Drivetrain.driveFor(-6,inches);
+  roller.spin(forward);
+  wait(1,seconds);
+  roller.stop();
+  Drivetrain.drive(6,inches);  
 }
 
 /*---------------------------------------------------------------------------*/
