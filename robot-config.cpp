@@ -1,5 +1,5 @@
 #include "vex.h"
- 
+
 using namespace vex;
 using signature = vision::signature;
 using code = vision::code;
@@ -15,11 +15,13 @@ motor rightMotorA = motor(PORT9, ratio18_1, false);
 motor rightMotorB = motor(PORT10, ratio18_1, false);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1.4);
+motor flywheel = motor(PORT17, ratio6_1, false);
 motor intakeMotorA = motor(PORT11, ratio18_1, false);
 motor intakeMotorB = motor(PORT18, ratio18_1, false);
 motor_group intake = motor_group(intakeMotorA, intakeMotorB);
-motor flywheel = motor(PORT17, ratio6_1, false);
 motor roller = motor(PORT13, ratio36_1, false);
+digital_out endgameA = digital_out(Brain.ThreeWirePort.A);
+digital_out endgameB = digital_out(Brain.ThreeWirePort.A);
 controller Controller1 = controller(primary);
 
 // VEXcode generated functions
@@ -27,6 +29,7 @@ controller Controller1 = controller(primary);
 bool RemoteControlCodeEnabled = true;
 // define variables used for controlling motors based on controller inputs
 bool Controller1LeftShoulderControlMotorsStopped = true;
+bool Controller1UpDownButtonsControlMotorsStopped = true;
 bool Controller1XBButtonsControlMotorsStopped = true;
 bool DrivetrainLNeedsToBeStopped_Controller1 = true;
 bool DrivetrainRNeedsToBeStopped_Controller1 = true;
@@ -81,30 +84,35 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.spin(forward);
       }
       // check the ButtonL1/ButtonL2 status to control intake
-      if (Controller1.ButtonR2.pressing()) {
-        intake.setVelocity(600,rpm);
-        intake.spin(forward);
-        Controller1LeftShoulderControlMotorsStopped = false;
-      } else if (Controller1.ButtonL2.pressing()) {
+      if (Controller1.ButtonL2.pressing()) {
         intake.setVelocity(600,rpm);
         intake.spin(reverse);
+        Controller1LeftShoulderControlMotorsStopped = false;
+      } else if (Controller1.ButtonR2.pressing()) {
+        intake.setVelocity(600,rpm);
+        intake.spin(forward);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (!Controller1LeftShoulderControlMotorsStopped) {
         intake.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
       }
+      // check the ButtonUp/ButtonDown status to control flywheel
+       if (Controller1.ButtonDown.pressing()) {
+        flywheel.spin(vex::directionType::fwd,-250, voltageUnits::volt);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      }
+      if (Controller1.ButtonLeft.pressing()) {
+        endgameA.set(true);
+        endgameB.set(true);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      }
       // check the ButtonX/ButtonB status to control roller
-      if (Controller1.ButtonX.pressing()) {
-        roller.setVelocity(150,pct);
+      if (Controller1.ButtonR1.pressing()) {
         roller.spin(forward);
         Controller1XBButtonsControlMotorsStopped = false;
       } else if (!Controller1XBButtonsControlMotorsStopped) {
         roller.stop();
-      if (Controller1.ButtonDown.pressing()) {
-        flywheel.spin(vex::directionType::fwd,-50, voltageUnits::volt);
-        Controller1XBButtonsControlMotorsStopped = false;
-      }
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1XBButtonsControlMotorsStopped = true;
       }
