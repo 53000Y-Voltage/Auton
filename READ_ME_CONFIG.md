@@ -27,4 +27,4 @@ If we did not have this, it would make the motor spin less or more than we tell 
     motor intakeMotorB = motor(PORT18, ratio18_1, false);
     motor_group intake = motor_group(intakeMotorA, intakeMotorB);
     
-  The code uses a motor_group to group two motors together that may be used together. For example, the motor in specific used in this example is for the 
+  The code uses a motor_group to group two motors together, named intakeMotorA and intakeMotorB, that may be used together. For example, the motor in specific used in this example is for the two intake motors. The two motors are defined seperately to later be used in the motor_group line. It is defined as a motor_group and is named intake. Then inside the parantheses, there is just the two motors instead of the ports and motor placement. This is because that part has already been defined 
