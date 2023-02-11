@@ -8,7 +8,7 @@ Below is our Robot-config.cpp explained at great length:
   Our second step is to begin configuring the robot. This is one of the most essential and core pieces of robotics as it allows the  motors and pneumatics to work properly as well as the autonomous function.
 
 
-WE begin by defining a chasis as it is the most basic part of the robot. We do this by writing lines like this:
+We begin by defining a chasis as it is the most basic part of the robot. We do this by writing lines like this:
 
     motor leftMotorA = motor(PORT8, ratio18_1, true);
 
