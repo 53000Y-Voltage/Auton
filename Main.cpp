@@ -55,33 +55,33 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  flywheel.spin(vex::directionType::fwd,-400, voltageUnits::volt);
+  flywheel.spin(reverse,400, voltageUnits::volt);
   wait(2,seconds);
   Drivetrain.setDriveVelocity(100,rpm);
-  Drivetrain.turnFor(left,12.5,degrees);
+  Drivetrain.turnFor(left,15,degrees);
   intake.setVelocity(600,rpm);
-  intake.spin(forward);
-   wait(0.5,seconds);
-   intake.stop();
-   intake.spin(forward);
-   wait(0.5,seconds);
-   intake.stop();
-   Drivetrain.turnFor(right,12.5,degrees);
+  intake.spinFor(forward,180,degrees);
+  intake.stop();
+  wait(0.75,sec);
+  intake.spinFor(forward,180,degrees);
+  intake.stop();
+  Drivetrain.turnFor(right,12.5,degrees);
   Drivetrain.driveFor(reverse,4,inches);
   roller.spin(reverse);
   wait(1,seconds);
   roller.stop();
   intake.setVelocity(600,rpm);
   Drivetrain.driveFor(4,inches);
-  Drivetrain.turnFor(right,50,degrees);
-  intake.spin(reverse);
-  Drivetrain.driveFor(135,inches);
-  Drivetrain.turnFor(left,135,degrees);
-  Drivetrain.driveFor(-6,inches);
+  Drivetrain.turnFor(right,40,degrees);
+  //intake.spin(reverse);
+  Drivetrain.driveFor(108,inches);
+  Drivetrain.turnFor(left,90,degrees);
+  Drivetrain.driveFor(-24,inches);
+  Drivetrain.turnFor(left,45,degrees);
   roller.spin(forward);
   wait(1,seconds);
   roller.stop();
-  Drivetrain.drive(6,inches);  
+  Drivetrain.driveFor(6,inches); 
 }
 
 /*---------------------------------------------------------------------------*/
@@ -95,7 +95,7 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-flywheel.spin(vex::directionType::fwd,-50, voltageUnits::volt);
+flywheel.spin(reverse,9.5, voltageUnits::volt);
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
