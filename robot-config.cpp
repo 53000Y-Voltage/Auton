@@ -99,19 +99,19 @@ int rc_auto_loop_function_Controller1() {
       }
       // check the ButtonUp/ButtonDown status to control flywheel
        if (Controller1.ButtonDown.pressing()) {
-        flywheel.spin(vex::directionType::fwd,-250, voltageUnits::volt);
+        flywheel.spin(vex::directionType::fwd,400, voltageUnits::volt);
         Controller1UpDownButtonsControlMotorsStopped = false;
       }
       if (Controller1.ButtonLeft.pressing()) {
         endgameA.set(true);
         endgameB.set(true);
-        Controller1UpDownButtonsControlMotorsStopped = false;
       }
       // check the ButtonX/ButtonB status to control roller
       if (Controller1.ButtonR1.pressing()) {
+        roller.setVelocity(200,rpm);
         roller.spin(forward);
         Controller1XBButtonsControlMotorsStopped = false;
-      } else if (!Controller1XBButtonsControlMotorsStopped) {
+      } else if (Controller1.ButtonL1.pressing()) {
         roller.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1XBButtonsControlMotorsStopped = true;
