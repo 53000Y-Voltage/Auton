@@ -20,6 +20,7 @@ motor intakeMotorA = motor(PORT11, ratio18_1, false);
 motor intakeMotorB = motor(PORT18, ratio18_1, false);
 motor_group intake = motor_group(intakeMotorA, intakeMotorB);
 motor roller = motor(PORT13, ratio36_1, false);
+digital_out aa = digital_out(Brain.ThreeWirePort.B);
 digital_out endgameA = digital_out(Brain.ThreeWirePort.A);
 digital_out endgameB = digital_out(Brain.ThreeWirePort.A);
 controller Controller1 = controller(primary);
@@ -99,12 +100,18 @@ int rc_auto_loop_function_Controller1() {
       }
       // check the ButtonUp/ButtonDown status to control flywheel
        if (Controller1.ButtonDown.pressing()) {
-        flywheel.spin(vex::directionType::fwd,400, voltageUnits::volt);
+        flywheel.spin(reverse,9, voltageUnits::volt);
         Controller1UpDownButtonsControlMotorsStopped = false;
       }
-      if (Controller1.ButtonLeft.pressing()) {
+      if (Controller1.ButtonA.pressing()) {
         endgameA.set(true);
         endgameB.set(true);
+      }
+      if (Controller1.ButtonY.pressing()) {
+        aa.set(true);
+      }
+      if (Controller1.ButtonX.pressing()) {
+        aa.set(false);
       }
       // check the ButtonX/ButtonB status to control roller
       if (Controller1.ButtonR1.pressing()) {
@@ -115,7 +122,7 @@ int rc_auto_loop_function_Controller1() {
         roller.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1XBButtonsControlMotorsStopped = true;
-      }
+      } 
     }
     // wait before repeating the process
     wait(20, msec);
